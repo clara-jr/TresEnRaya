@@ -1,0 +1,369 @@
+[33mcommit d5d881a8096f30cf3433fc2cda0ae097b0b73c3c[m
+Author: Clara Jimenez <clarajimenezrecio@gmail.com>
+Date:   Tue Nov 3 17:31:01 2015 +0100
+
+    TresEnRaya 2 (Tablero 3x3)
+
+[1mdiff --git a/src/build/index.js b/src/build/index.js[m
+[1mindex 71276a1..910bffc 100644[m
+[1m--- a/src/build/index.js[m
+[1m+++ b/src/build/index.js[m
+[36m@@ -9,38 +9,81 @@[m [mvar casillaStyle = {[m
+ var Casilla = React.createClass({[m
+   displayName: 'Casilla',[m
+ [m
+[32m+[m[32m  casillaClick: function casillaClick() {[m
+[32m+[m[32m    this.props.manejadorClick(this.props.indiceFila, this.props.indiceColumna);[m
+[32m+[m[32m  },[m
+[32m+[m[32m  render: function render() {[m
+[32m+[m[32m    return React.createElement([m
+[32m+[m[32m      'button',[m
+[32m+[m[32m      { style: casillaStyle, onClick: this.casillaClick },[m
+[32m+[m[32m      this.props.valor[m
+[32m+[m[32m    );[m
+[32m+[m[32m  }[m
+[32m+[m[32m});[m
+[32m+[m
+[32m+[m[32mmodule.exports = Casilla;[m
+[32m+[m
+[32m+[m[32m},{}],2:[function(require,module,exports){[m
+[32m+[m[32m'use strict';[m
+[32m+[m
+[32m+[m[32mvar Casilla = require("./Casilla.jsx");[m
+[32m+[m[32mvar Tablero = React.createClass({[m
+[32m+[m[32m  displayName: 'Tablero',[m
+[32m+[m
+   getInitialState: function getInitialState() {[m
+     return {[m
+[31m-      valor: '-'[m
+[32m+[m[32m      clicks: 0,[m
+[32m+[m[32m      valores: [['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']][m
+     };[m
+   },[m
+[31m-  casillaClick: function casillaClick() {[m
+[31m-    var valorAntiguo = this.state.valor;[m
+[31m-    if (valorAntiguo === "-") {[m
+[31m-      var valorNuevo = Math.random() < 0.5 ? 'O' : 'X';[m
+[31m-    } else {[m
+[31m-      var valorNuevo = valorAntiguo === 'X' ? 'O' : 'X';[m
+[32m+[m[32m  tableroClick: function tableroClick(indiceFila, indiceColumna) {[m
+[32m+[m[32m    var valores = this.state.valores;[m
+[32m+[m[32m    var nuevoValor = 'X';[m
+[32m+[m[32m    if (this.state.clicks % 2 === 0) {[m
+[32m+[m[32m      nuevoValor = 'O';[m
+     }[m
+[32m+[m[32m    valores[indiceFila][indiceColumna] = nuevoValor;[m
+     this.setState({[m
+[31m-      valor: valorNuevo[m
+[32m+[m[32m      clicks: this.state.clicks + 1,[m
+[32m+[m[32m      valores: this.state.valores[m
+     });[m
+   },[m
+   render: function render() {[m
+     return React.createElement([m
+[31m-      'button',[m
+[31m-      { style: casillaStyle, onClick: this.casillaClick },[m
+[31m-      this.state.valor[m
+[32m+[m[32m      'div',[m
+[32m+[m[32m      null,[m
+[32m+[m[32m      React.createElement([m
+[32m+[m[32m        'div',[m
+[32m+[m[32m        null,[m
+[32m+[m[32m        React.createElement(Casilla, { valor: this.state.valores[0][0], indiceFila: 0, indiceColumna: 0, manejadorClick: this.tableroClick }),[m
+[32m+[m[32m        React.createElement(Casilla, { valor: this.state.valores[0][1], indiceFila: 0, indiceColumna: 1, manejadorClick: this.tableroClick }),[m
+[32m+[m[32m        React.createElement(Casilla, { valor: this.state.valores[0][2], indiceFila: 0, indiceColumna: 2, manejadorClick: this.tableroClick })[m
+[32m+[m[32m      ),[m
+[32m+[m[32m      React.createElement([m
+[32m+[m[32m        'div',[m
+[32m+[m[32m        null,[m
+[32m+[m[32m        React.createElement(Casilla, { valor: this.state.valores[1][0], indiceFila: 1, indiceColumna: 0, manejadorClick: this.tableroClick }),[m
+[32m+[m[32m        React.createElement(Casilla, { valor: this.state.valores[1][1], indiceFila: 1, indiceColumna: 1, manejadorClick: this.tableroClick }),[m
+[32m+[m[32m        React.createElement(Casilla, { valor: this.state.valores[1][2], indiceFila: 1, indiceColumna: 2, manejadorClick: this.tableroClick })[m
+[32m+[m[32m      ),[m
+[32m+[m[32m      React.createElement([m
+[32m+[m[32m        'div',[m
+[32m+[m[32m        null,[m
+[32m+[m[32m        React.createElement(Casilla, { valor: this.state.valores[2][0], indiceFila: 2, indiceColumna: 0, manejadorClick: this.tableroClick }),[m
+[32m+[m[32m        React.createElement(Casilla, { valor: this.state.valores[2][1], indiceFila: 2, indiceColumna: 1, manejadorClick: this.tableroClick }),[m
+[32m+[m[32m        React.createElement(Casilla, { valor: this.state.valores[2][2], indiceFila: 2, indiceColumna: 2, manejadorClick: this.tableroClick })[m
+[32m+[m[32m      )[m
+     );[m
+   }[m
+ });[m
+ [m
+[31m-module.exports = Casilla;[m
+[32m+[m[32mmodule.exports = Tablero;[m
+ [m
+[31m-},{}],2:[function(require,module,exports){[m
+[32m+[m[32m},{"./Casilla.jsx":1}],3:[function(require,module,exports){[m
+ "use strict";[m
+ [m
+[31m-var Casilla = require("./Casilla.jsx");[m
+[32m+[m[32mvar Tablero = require("./Tablero.jsx");[m
+ [m
+[31m-ReactDOM.render(React.createElement(Casilla, null), document.getElementById('contenedor'));[m
+[32m+[m[32mReactDOM.render(React.createElement(Tablero, null), document.getElementById('contenedor'));[m
+ [m
+[31m-},{"./Casilla.jsx":1}]},{},[2]);[m
+[32m+[m[32m},{"./Tablero.jsx":2}]},{},[3]);[m
+[1mdiff --git a/src/js/Casilla.jsx b/src/js/Casilla.jsx[m
+[1mindex 5c8d04a..1007f75 100644[m
+[1m--- a/src/js/Casilla.jsx[m
+[1m+++ b/src/js/Casilla.jsx[m
+[36m@@ -4,28 +4,15 @@[m [mconst casillaStyle = {[m
+ };[m
+ [m
+ let Casilla = React.createClass({[m
+[31m-  getInitialState: function(){[m
+[31m-    return {[m
+[31m-      valor: '-'[m
+[31m-    }[m
+[31m-  },[m
+   casillaClick: function(){[m
+[31m-    var valorAntiguo = this.state.valor;[m
+[31m-    if(valorAntiguo==="-") {[m
+[31m-      var valorNuevo = Math.random() < 0.5 ? 'O': 'X';[m
+[31m-    } else {[m
+[31m-      var valorNuevo = valorAntiguo === 'X' ? 'O': 'X';[m
+[31m-    }[m
+[31m-    this.setState({[m
+[31m-      valor: valorNuevo[m
+[31m-    });[m
+[32m+[m[32m   this.props.manejadorClick(this.props.indiceFila, this.props.indiceColumna);[m
+   },[m
+   render: function(){[m
+[31m-    return ([m
+[31m-      <button style={casillaStyle} onClick={this.casillaClick}>[m
+[31m-        {this.state.valor}[m
+[31m-      </button>[m
+[31m-    )[m
+[32m+[m[32m   return ([m
+[32m+[m[32m    <button style={casillaStyle} onClick={this.casillaClick}>[m
+[32m+[m[32m     {this.props.valor}[m
+[32m+[m[32m    </button>[m
+[32m+[m[32m   )[m
+   }[m
+ });[m
+ [m
+[1mdiff --git a/src/js/Tablero.jsx b/src/js/Tablero.jsx[m
+[1mnew file mode 100644[m
+[1mindex 0000000..cd1cf35[m
+[1m--- /dev/null[m
+[1m+++ b/src/js/Tablero.jsx[m
+[36m@@ -0,0 +1,48 @@[m
+[32m+[m[32mconst Casilla = require("./Casilla.jsx");[m
+[32m+[m[32mvar Tablero = React.createClass({[m
+[32m+[m[32m  getInitialState: function(){[m
+[32m+[m[32m    return {[m
+[32m+[m[32m      clicks: 0,[m
+[32m+[m[32m        valores: [[m
+[32m+[m[32m        ['-', '-', '-'],[m
+[32m+[m[32m        ['-', '-', '-'],[m
+[32m+[m[32m        ['-', '-', '-'][m
+[32m+[m[32m        ][m
+[32m+[m[32m    };[m
+[32m+[m[32m  },[m
+[32m+[m[32m  tableroClick: function(indiceFila, indiceColumna){[m
+[32m+[m[32m    var valores = this.state.valores;[m
+[32m+[m[32m    var nuevoValor = 'X';[m
+[32m+[m[32m    if(this.state.clicks % 2 === 0){[m
+[32m+[m[32m      nuevoValor = 'O';[m
+[32m+[m[32m    }[m
+[32m+[m[32m    valores[indiceFila][indiceColumna] = nuevoValor;[m
+[32m+[m[32m    this.setState({[m
+[32m+[m[32m      clicks: this.state.clicks + 1,[m
+[32m+[m[32m      valores: this.state.valores[m
+[32m+[m[32m    });[m
+[32m+[m[32m  },[m
+[32m+[m[32m  render: function(){[m
+[32m+[m[32m    return ([m
+[32m+[m[32m      <div>[m
+[32m+[m[32m        <div>[m
+[32m+[m[32m          <Casilla valor={this.state.valores[0][0]} indiceFila={0} indiceColumna={0} manejadorClick={this.tableroClick}/>[m
+[32m+[m[32m          <Casilla valor={this.state.valores[0][1]} indiceFila={0} indiceColumna={1} manejadorClick={this.tableroClick}/>[m
+[32m+[m[32m          <Casilla valor={this.state.valores[0][2]} indiceFila={0} indiceColumna={2} manejadorClick={this.tableroClick}/>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div>[m
+[32m+[m[32m          <Casilla valor={this.state.valores[1][0]} indiceFila={1} indiceColumna={0} manejadorClick={this.tableroClick}/>[m
+[32m+[m[32m          <Casilla valor={this.state.valores[1][1]} indiceFila={1} indiceColumna={1} manejadorClick={this.tableroClick}/>[m
+[32m+[m[32m          <Casilla valor={this.state.valores[1][2]} indiceFila={1} indiceColumna={2} manejadorClick={this.tableroClick}/>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div>[m
+[32m+[m[32m          <Casilla valor={this.state.valores[2][0]} indiceFila={2} indiceColumna={0} manejadorClick={this.tableroClick}/>[m
+[32m+[m[32m          <Casilla valor={this.state.valores[2][1]} indiceFila={2} indiceColumna={1} manejadorClick={this.tableroClick}/>[m
+[32m+[m[32m          <Casilla valor={this.state.valores[2][2]} indiceFila={2} indiceColumna={2} manejadorClick={this.tableroClick}/>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m      </div>[m
+[32m+[m[32m    );[m
+[32m+[m[32m  }[m
+[32m+[m[32m});[m
+[32m+[m
+[32m+[m[32mmodule.exports = Tablero;[m
+[1mdiff --git a/src/js/index.jsx b/src/js/index.jsx[m
+[1mindex fd44e95..50bdfb6 100644[m
+[1m--- a/src/js/index.jsx[m
+[1m+++ b/src/js/index.jsx[m
+[36m@@ -1,3 +1,3 @@[m
+[31m-const Casilla = require("./Casilla.jsx");[m
+[32m+[m[32mconst Tablero = require("./Tablero.jsx");[m
+ [m
+[31m-ReactDOM.render(<Casilla />, document.getElementById('contenedor'));[m
+[32m+[m[32mReactDOM.render(<Tablero />, document.getElementById('contenedor'));[m
+
+[33mcommit 5e407b1f32f87f6cee497eead5cd36d714475112[m
+Author: Clara Jimenez <clarajimenezrecio@gmail.com>
+Date:   Tue Nov 3 17:02:32 2015 +0100
+
+    TresEnRaya 1
+
+[1mdiff --git a/.gitignore b/.gitignore[m
+[1mnew file mode 100644[m
+[1mindex 0000000..8d4c2d1[m
+[1m--- /dev/null[m
+[1m+++ b/.gitignore[m
+[36m@@ -0,0 +1,3 @@[m
+[32m+[m[32mnode_modules[m
+[32m+[m[32m.DS_Store[m
+[32m+[m[32mnpm-debug.log[m
+\ No newline at end of file[m
+[1mdiff --git a/index.html b/index.html[m
+[1mnew file mode 100644[m
+[1mindex 0000000..a6abf4f[m
+[1m--- /dev/null[m
+[1m+++ b/index.html[m
+[36m@@ -0,0 +1,15 @@[m
+[32m+[m[32m<!DOCTYPE html>[m
+[32m+[m[32m<html>[m
+[32m+[m[32m<head>[m
+[32m+[m[32m  <meta charset="UTF-8" />[m
+[32m+[m[32m  <title>Tres en Raya - IWEB</title>[m
+[32m+[m[32m  <script src="https://fb.me/react-0.14.0.js"></script>[m
+[32m+[m[32m  <script src="https://fb.me/react-dom-0.14.0.js"></script>[m
+[32m+[m[32m</head>[m
+[32m+[m[32m<body>[m
+[32m+[m[32m  <h1>Tres En Raya - IWEB</h1>[m
+[32m+[m[32m  <div id="contenedor"></div>[m
+[32m+[m[32m  <script type="text/javascript" src="src/build/index.js">[m
+[32m+[m[32m  </script>[m
+[32m+[m[32m</body>[m
+[32m+[m[32m</html>[m
+[1mdiff --git a/package.json b/package.json[m
+[1mnew file mode 100644[m
+[1mindex 0000000..9772d05[m
+[1m--- /dev/null[m
+[1m+++ b/package.json[m
+[36m@@ -0,0 +1,15 @@[m
+[32m+[m[32m{[m
+[32m+[m[32m  "name": "tresenraya",[m
+[32m+[m[32m  "version": "1.0.0",[m
+[32m+[m[32m  "description": "",[m
+[32m+[m[32m  "main": "index.js",[m
+[32m+[m[32m  "scripts": {[m
+[32m+[m[32m    "test": "echo \"Error: no test specified\" && exit 1"[m
+[32m+[m[32m  },[m
+[32m+[m[32m  "author": "",[m
+[32m+[m[32m  "license": "ISC",[m
+[32m+[m[32m  "devDependencies": {[m
+[32m+[m[32m    "babelify": "^6.4.0",[m
+[32m+[m[32m    "browserify": "^11.2.0"[m
+[32m+[m[32m  }[m
+[32m+[m[32m}[m
+[1mdiff --git a/src/build/index.js b/src/build/index.js[m
+[1mnew file mode 100644[m
+[1mindex 0000000..71276a1[m
+[1m--- /dev/null[m
+[1m+++ b/src/build/index.js[m
+[36m@@ -0,0 +1,46 @@[m
+[32m+[m[32m(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){[m
+[32m+[m[32m'use strict';[m
+[32m+[m
+[32m+[m[32mvar casillaStyle = {[m
+[32m+[m[32m  height: '100px',[m
+[32m+[m[32m  width: '100px'[m
+[32m+[m[32m};[m
+[32m+[m
+[32m+[m[32mvar Casilla = React.createClass({[m
+[32m+[m[32m  displayName: 'Casilla',[m
+[32m+[m
+[32m+[m[32m  getInitialState: function getInitialState() {[m
+[32m+[m[32m    return {[m
+[32m+[m[32m      valor: '-'[m
+[32m+[m[32m    };[m
+[32m+[m[32m  },[m
+[32m+[m[32m  casillaClick: function casillaClick() {[m
+[32m+[m[32m    var valorAntiguo = this.state.valor;[m
+[32m+[m[32m    if (valorAntiguo === "-") {[m
+[32m+[m[32m      var valorNuevo = Math.random() < 0.5 ? 'O' : 'X';[m
+[32m+[m[32m    } else {[m
+[32m+[m[32m      var valorNuevo = valorAntiguo === 'X' ? 'O' : 'X';[m
+[32m+[m[32m    }[m
+[32m+[m[32m    this.setState({[m
+[32m+[m[32m      valor: valorNuevo[m
+[32m+[m[32m    });[m
+[32m+[m[32m  },[m
+[32m+[m[32m  render: function render() {[m
+[32m+[m[32m    return React.createElement([m
+[32m+[m[32m      'button',[m
+[32m+[m[32m      { style: casillaStyle, onClick: this.casillaClick },[m
+[32m+[m[32m      this.state.valor[m
+[32m+[m[32m    );[m
+[32m+[m[32m  }[m
+[32m+[m[32m});[m
+[32m+[m
+[32m+[m[32mmodule.exports = Casilla;[m
+[32m+[m
+[32m+[m[32m},{}],2:[function(require,module,exports){[m
+[32m+[m[32m"use strict";[m
+[32m+[m
+[32m+[m[32mvar Casilla = require("./Casilla.jsx");[m
+[32m+[m
+[32m+[m[32mReactDOM.render(React.createElement(Casilla, null), document.getElementById('contenedor'));[m
+[32m+[m
+[32m+[m[32m},{"./Casilla.jsx":1}]},{},[2]);[m
+[1mdiff --git a/src/js/Casilla.jsx b/src/js/Casilla.jsx[m
+[1mnew file mode 100644[m
+[1mindex 0000000..5c8d04a[m
+[1m--- /dev/null[m
+[1m+++ b/src/js/Casilla.jsx[m
+[36m@@ -0,0 +1,32 @@[m
+[32m+[m[32mconst casillaStyle = {[m
+[32m+[m[32m  height: '100px',[m
+[32m+[m[32m  width: '100px'[m
+[32m+[m[32m};[m
+[32m+[m
+[32m+[m[32mlet Casilla = React.createClass({[m
+[32m+[m[32m  getInitialState: function(){[m
+[32m+[m[32m    return {[m
+[32m+[m[32m      valor: '-'[m
+[32m+[m[32m    }[m
+[32m+[m[32m  },[m
+[32m+[m[32m  casillaClick: function(){[m
+[32m+[m[32m    var valorAntiguo = this.state.valor;[m
+[32m+[m[32m    if(valorAntiguo==="-") {[m
+[32m+[m[32m      var valorNuevo = Math.random() < 0.5 ? 'O': 'X';[m
+[32m+[m[32m    } else {[m
+[32m+[m[32m      var valorNuevo = valorAntiguo === 'X' ? 'O': 'X';[m
+[32m+[m[32m    }[m
+[32m+[m[32m    this.setState({[m
+[32m+[m[32m      valor: valorNuevo[m
+[32m+[m[32m    });[m
+[32m+[m[32m  },[m
+[32m+[m[32m  render: function(){[m
+[32m+[m[32m    return ([m
+[32m+[m[32m      <button style={casillaStyle} onClick={this.casillaClick}>[m
+[32m+[m[32m        {this.state.valor}[m
+[32m+[m[32m      </button>[m
+[32m+[m[32m    )[m
+[32m+[m[32m  }[m
+[32m+[m[32m});[m
+[32m+[m
+[32m+[m[32mmodule.exports = Casilla;[m
+[1mdiff --git a/src/js/index.jsx b/src/js/index.jsx[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fd44e95[m
+[1m--- /dev/null[m
+[1m+++ b/src/js/index.jsx[m
+[36m@@ -0,0 +1,3 @@[m
+[32m+[m[32mconst Casilla = require("./Casilla.jsx");[m
+[32m+[m
+[32m+[m[32mReactDOM.render(<Casilla />, document.getElementById('contenedor'));[m
