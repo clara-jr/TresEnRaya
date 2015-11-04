@@ -6,7 +6,7 @@ const casillaStyle = {
 let Casilla = React.createClass({
   casillaClick: function(){
     if (this.props.valor==="-") {
-      this.props.manejadorClick(this.props.indiceFila, this.props.indiceColumna);
+      this.props.manejadorCasillaClick(this.props.indiceFila, this.props.indiceColumna);
     }
   },
   render: function(){
