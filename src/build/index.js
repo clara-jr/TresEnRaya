@@ -7,7 +7,7 @@ var Alert = React.createClass({
   render: function render() {
     return React.createElement(
       "header",
-      { className: "cabecera" },
+      { className: "resultado" },
       this.props.ganador
     );
   }
@@ -84,8 +84,8 @@ var App = React.createClass({
         'div',
         null,
         React.createElement(Cabecera, { texto: texto }),
-        React.createElement(Alert, { ganador: ganador }),
-        React.createElement(Tablero, { valores: this.state.valores, manejadorTableroClick: this.appClick })
+        React.createElement(Tablero, { valores: this.state.valores, manejadorTableroClick: this.appClick }),
+        React.createElement(Alert, { ganador: ganador })
       );
     }
   }
@@ -129,7 +129,7 @@ var Casilla = React.createClass({
   render: function render() {
     return React.createElement(
       'button',
-      { style: casillaStyle, className: this.props.valor === "-" ? "clickable" : "no_clickable", onClick: this.casillaClick },
+      { style: casillaStyle, className: this.props.valor === "-" ? "clickable" : this.props.valor === "X" ? "no_clickable_X" : "no_clickable_0", onClick: this.casillaClick },
       this.props.valor
     );
   }

@@ -1,7 +1,7 @@
 var Alert = React.createClass({
   render: function(){
     return (
-      <header className="cabecera">
+      <header className="resultado">
         {this.props.ganador}
       </header>
     )

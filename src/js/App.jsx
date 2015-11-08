@@ -77,8 +77,8 @@ var App = React.createClass({
       return(
           <div>
             <Cabecera texto={texto}/>
-            <Alert ganador={ganador}/>
             <Tablero valores={this.state.valores} manejadorTableroClick={this.appClick}/>
+            <Alert ganador={ganador}/>
           </div>
       )
     }

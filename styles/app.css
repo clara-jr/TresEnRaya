@@ -1,6 +1,31 @@
+* {
+  font-family: 'Chewy', cursive, sans-serif;
+  font-weight: 400;
+  text-align: center;
+}
+h1 {
+  padding-top: 10px;
+  font-size: 3em;
+}
+.cabecera {
+  padding-bottom: 20px;
+  font-size: 1.5em;
+}
+.resultado {
+  padding-top: 20px;
+  font-size: 1.5em;
+}
 .clickable {
   cursor: pointer;
+  background-color: white;
 }
-.no_clickable {
+.no_clickable_X {
   cursor: not-allowed;
+  background-color: #9845d8;
+  font-weight: 700;
+}
+.no_clickable_0 {
+  cursor: not-allowed;
+  background-color: #00dfa3;
+  font-weight: 700;
 }
