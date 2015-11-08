@@ -7,7 +7,7 @@ var Alert = React.createClass({
   render: function render() {
     return React.createElement(
       "header",
-      { className: "resultado" },
+      { className: this.props.ganador === "¡Vaya, ha habido un empate!" ? "empate" : this.props.ganador === "¡HAN GANADO LAS X!\n¡ENHORABUENA JUGADOR 1!" ? "gana_X" : "gana_0" },
       this.props.ganador
     );
   }

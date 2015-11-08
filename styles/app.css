@@ -11,9 +11,19 @@ h1 {
   padding-bottom: 20px;
   font-size: 1.5em;
 }
-.resultado {
+.empate {
   padding-top: 20px;
   font-size: 1.5em;
+}
+.gana_0 {
+  padding-top: 20px;
+  font-size: 1.5em;
+  color: #00dfa3;
+}
+.gana_X {
+  padding-top: 20px;
+  font-size: 1.5em;
+  color: #9845d8;
 }
 .clickable {
   cursor: pointer;
