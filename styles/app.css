@@ -12,7 +12,6 @@ h1 {
   font-size: 1.5em;
 }
 .empate {
-  padding-top: 20px;
   font-size: 1.5em;
 }
 .gana_0 {
@@ -27,6 +26,10 @@ h1 {
 }
 .clickable {
   cursor: pointer;
+  background-color: white;
+}
+.no_clickable {
+  cursor: not-allowed;
   background-color: white;
 }
 .no_clickable_X {

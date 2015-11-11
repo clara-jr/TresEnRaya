@@ -5,10 +5,12 @@ var Alert = React.createClass({
   displayName: "Alert",
 
   render: function render() {
+    alert(this.props.ganador);
     return React.createElement(
       "header",
       { className: this.props.ganador === "¡Vaya, ha habido un empate!" ? "empate" : this.props.ganador === "¡HAN GANADO LAS X!\n¡ENHORABUENA JUGADOR 1!" ? "gana_X" : "gana_0" },
-      this.props.ganador
+      this.props.ganador,
+      " Pulsa reiniciar para la revancha"
     );
   }
 });
@@ -21,6 +23,7 @@ module.exports = Alert;
 var Tablero = require('./Tablero.jsx');
 var Cabecera = require('./Cabecera.jsx');
 var Alert = require('./Alert.jsx');
+var Reinicio = require('./Reinicio.jsx');
 var JUGADORX = "jugador 1 - las X";
 var JUGADOR0 = "jugador 2 - los 0";
 var GANAX = "¡HAN GANADO LAS X!\n¡ENHORABUENA JUGADOR 1!";
@@ -36,6 +39,20 @@ var App = React.createClass({
       valores: [['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']],
       gana: ""
     };
+  },
+  setInitialState: function setInitialState() {
+    this.state.turno = JUGADORX;
+    for (var i = 0; i < 3; i++) {
+      for (var j = 0; j < 3; j++) {
+        this.state.valores[i][j] = '-';
+      }
+    }
+    this.state.gana = "";
+    this.setState({
+      turno: this.state.turno,
+      valores: this.state.valores,
+      gana: this.state.gana
+    });
   },
   appClick: function appClick(numeroFila, numeroColumna) {
     var valores = this.state.valores;
@@ -77,14 +94,16 @@ var App = React.createClass({
         'div',
         null,
         React.createElement(Cabecera, { texto: texto }),
-        React.createElement(Tablero, { valores: this.state.valores, manejadorTableroClick: this.appClick })
+        React.createElement(Tablero, { terminado: false, valores: this.state.valores, manejadorTableroClick: this.appClick }),
+        React.createElement(Reinicio, { manejadorReinicioClick: this.setInitialState })
       );
     } else {
       return React.createElement(
         'div',
         null,
         React.createElement(Cabecera, { texto: texto }),
-        React.createElement(Tablero, { valores: this.state.valores, manejadorTableroClick: this.appClick }),
+        React.createElement(Tablero, { terminado: true, valores: this.state.valores, manejadorTableroClick: this.appClick }),
+        React.createElement(Reinicio, { manejadorReinicioClick: this.setInitialState }),
         React.createElement(Alert, { ganador: ganador })
       );
     }
@@ -93,7 +112,7 @@ var App = React.createClass({
 
 module.exports = App;
 
-},{"./Alert.jsx":1,"./Cabecera.jsx":3,"./Tablero.jsx":5}],3:[function(require,module,exports){
+},{"./Alert.jsx":1,"./Cabecera.jsx":3,"./Reinicio.jsx":5,"./Tablero.jsx":6}],3:[function(require,module,exports){
 "use strict";
 
 var Cabecera = React.createClass({
@@ -129,7 +148,7 @@ var Casilla = React.createClass({
   render: function render() {
     return React.createElement(
       'button',
-      { style: casillaStyle, className: this.props.valor === "-" ? "clickable" : this.props.valor === "X" ? "no_clickable_X" : "no_clickable_0", onClick: this.casillaClick },
+      { style: casillaStyle, className: this.props.valor === "-" ? this.props.terminado ? "no_clickable" : "clickable" : this.props.valor === "X" ? "no_clickable_X" : "no_clickable_0", onClick: this.casillaClick },
       this.props.valor
     );
   }
@@ -138,6 +157,32 @@ var Casilla = React.createClass({
 module.exports = Casilla;
 
 },{}],5:[function(require,module,exports){
+'use strict';
+
+var reinicioStyle = {
+  height: '50px',
+  width: '100px',
+  margin: '20px'
+};
+
+var Reinicio = React.createClass({
+  displayName: 'Reinicio',
+
+  reinicioClick: function reinicioClick() {
+    this.props.manejadorReinicioClick();
+  },
+  render: function render() {
+    return React.createElement(
+      'button',
+      { style: reinicioStyle, onClick: this.reinicioClick },
+      'Reiniciar'
+    );
+  }
+});
+
+module.exports = Reinicio;
+
+},{}],6:[function(require,module,exports){
 "use strict";
 
 var Casilla = require("./Casilla.jsx");
@@ -151,7 +196,7 @@ var Tablero = React.createClass({
     var casillas = this.props.valores.map((function (valoresFila, indiceFila) {
       var fila = valoresFila.map((function (valor, indiceColumna) {
         var mykey = "" + indiceFila + indiceColumna;
-        return React.createElement(Casilla, { valor: valor, indiceFila: indiceFila, indiceColumna: indiceColumna, key: mykey, manejadorCasillaClick: this.tableroClick });
+        return React.createElement(Casilla, { terminado: this.props.terminado, valor: valor, indiceFila: indiceFila, indiceColumna: indiceColumna, key: mykey, manejadorCasillaClick: this.tableroClick });
       }).bind(this));
       return React.createElement(
         "div",
@@ -169,11 +214,11 @@ var Tablero = React.createClass({
 
 module.exports = Tablero;
 
-},{"./Casilla.jsx":4}],6:[function(require,module,exports){
+},{"./Casilla.jsx":4}],7:[function(require,module,exports){
 "use strict";
 
 var App = require("./App.jsx");
 
 ReactDOM.render(React.createElement(App, null), document.getElementById('contenedor'));
 
-},{"./App.jsx":2}]},{},[6]);
+},{"./App.jsx":2}]},{},[7]);

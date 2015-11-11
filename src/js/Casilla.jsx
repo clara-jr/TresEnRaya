@@ -11,7 +11,7 @@ let Casilla = React.createClass({
   },
   render: function(){
    return (
-    <button style={casillaStyle} className={this.props.valor==="-" ? "clickable":(this.props.valor==="X" ? "no_clickable_X":"no_clickable_0")} onClick={this.casillaClick}>
+    <button style={casillaStyle} className={this.props.valor==="-" ? (this.props.terminado ? "no_clickable":"clickable"):(this.props.valor==="X" ? "no_clickable_X":"no_clickable_0")} onClick={this.casillaClick}>
       {this.props.valor}
     </button>
    )

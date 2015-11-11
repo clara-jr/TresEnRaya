@@ -1,6 +1,7 @@
 const Tablero = require('./Tablero.jsx');
 const Cabecera = require('./Cabecera.jsx');
 const Alert = require('./Alert.jsx');
+const Reinicio = require('./Reinicio.jsx');
 const JUGADORX = "jugador 1 - las X";
 const JUGADOR0 = "jugador 2 - los 0";
 const GANAX = "¡HAN GANADO LAS X!\n¡ENHORABUENA JUGADOR 1!";
@@ -18,6 +19,20 @@ var App = React.createClass({
       ],
       gana: ""
     };
+  },
+  setInitialState: function(){
+    this.state.turno = JUGADORX;
+    for (var i=0; i<3; i++) {
+      for (var j=0; j<3; j++) {
+        this.state.valores[i][j] = '-';
+      }
+    }
+    this.state.gana = "";
+    this.setState({
+      turno: this.state.turno,
+      valores: this.state.valores,
+      gana: this.state.gana
+    });
   },
   appClick: function(numeroFila, numeroColumna){
     let valores = this.state.valores;
@@ -69,7 +84,8 @@ var App = React.createClass({
       return(
           <div>
             <Cabecera texto={texto}/>
-            <Tablero valores={this.state.valores} manejadorTableroClick={this.appClick}/>
+            <Tablero terminado={false} valores={this.state.valores} manejadorTableroClick={this.appClick}/>
+            <Reinicio manejadorReinicioClick={this.setInitialState}/>
           </div>
       )
     }
@@ -77,7 +93,8 @@ var App = React.createClass({
       return(
           <div>
             <Cabecera texto={texto}/>
-            <Tablero valores={this.state.valores} manejadorTableroClick={this.appClick}/>
+            <Tablero terminado={true} valores={this.state.valores} manejadorTableroClick={this.appClick}/>
+            <Reinicio manejadorReinicioClick={this.setInitialState}/>
             <Alert ganador={ganador}/>
           </div>
       )

@@ -8,7 +8,7 @@ var Tablero = React.createClass({
       let fila = valoresFila.map(function(valor, indiceColumna){
         let mykey = ""+indiceFila+indiceColumna;
         return (
-          <Casilla valor={valor} indiceFila={indiceFila} indiceColumna={indiceColumna} key={mykey} manejadorCasillaClick={this.tableroClick}/>
+          <Casilla terminado={this.props.terminado} valor={valor} indiceFila={indiceFila} indiceColumna={indiceColumna} key={mykey} manejadorCasillaClick={this.tableroClick}/>
         )
       }.bind(this));
       return (
