@@ -1,3 +1,6 @@
+var React = require('react');
+var ReactDOM = require('react-dom');
+
 const Tablero = require('./Tablero.jsx');
 const Cabecera = require('./Cabecera.jsx');
 const Alert = require('./Alert.jsx');
@@ -19,8 +22,20 @@ var App = React.createClass({
       ['-', '-', '-']
       ],
       gana: "",
-      terminado: false
+      terminado: false,
+      showModal: false
     };
+  },
+  close: function(){
+    this.state.terminado = true;
+    this.state.turno = TERMINADO;
+    this.state.gana = "";
+    this.setState({
+      turno: this.state.turno,
+      gana: this.state.gana,
+      terminado: this.state.terminado,
+      showModal: false
+    });
   },
   setInitialState: function(){
     this.state.turno = JUGADORX;
@@ -53,6 +68,7 @@ var App = React.createClass({
     if (this.state.terminado===false) {
       if (empate) {
         this.state.gana = EMPATE;
+        this.state.showModal = true;
       }
       if ( (valores[1][1] !== '-') &&
            ( (valores[1][1] === valores[0][0] && valores[1][1] === valores[2][2]) ||
@@ -61,25 +77,29 @@ var App = React.createClass({
              (valores[1][1] === valores[0][1] && valores[1][1] === valores[2][1]) )
          ) {
             this.state.gana = valores[1][1] === 'X' ? GANAX:GANA0;
+            this.state.showModal = true;
       }
       if ( (valores[0][0] !== '-') &&
            ( (valores[0][0] === valores[0][1] && valores[0][0] === valores[0][2]) ||
              (valores[0][0] === valores[1][0] && valores[0][0] === valores[2][0]) )
          ) {
             this.state.gana = valores[0][0] === 'X' ? GANAX:GANA0;
+            this.state.showModal = true;
       }
       if ( (valores[2][2] !== '-') &&
            ( (valores[2][2] === valores[1][2] && valores[2][2] === valores[0][2]) ||
              (valores[2][2] === valores[2][1] && valores[2][2] === valores[2][0]) )
          ) {
             this.state.gana = valores[2][2] === 'X' ? GANAX:GANA0;
+            this.state.showModal = true;
       }
     }
     this.setState({
       turno: this.state.terminado ? TERMINADO:(this.state.turno === JUGADORX ? JUGADOR0:JUGADORX),
       valores: this.state.valores,
       gana: this.state.gana,
-      terminado: this.state.terminado
+      terminado: this.state.terminado,
+      showModal: this.state.showModal
     });
   },
   render: function(){
@@ -87,33 +107,14 @@ var App = React.createClass({
     texto = this.state.turno;
     var ganador;
     ganador = this.state.gana;
-    if (ganador === "") {
-      return(
-          <div>
-            <Cabecera texto={texto}/>
-            <Tablero terminado={this.state.terminado} valores={this.state.valores} manejadorTableroClick={this.appClick}/>
-            <Reinicio manejadorReinicioClick={this.setInitialState}/>
-          </div>
-      )
-    }
-    else {
-      this.state.terminado = true;
-      this.state.turno = TERMINADO;
-      this.state.gana = "";
-      this.setState({
-        turno: this.state.turno,
-        gana: this.state.gana,
-        terminado: this.state.terminado
-      });
-      return(
-          <div>
-            <Cabecera texto={texto}/>
-            <Tablero terminado={this.state.terminado} valores={this.state.valores} manejadorTableroClick={this.appClick}/>
-            <Reinicio manejadorReinicioClick={this.setInitialState}/>
-            <Alert ganador={ganador}/>
-          </div>
-      )
-    }
+    return(
+        <div>
+          <Cabecera texto={texto}/>
+          <Tablero terminado={this.state.terminado} valores={this.state.valores} manejadorTableroClick={this.appClick}/>
+          <Reinicio manejadorReinicioClick={this.setInitialState}/>
+          <Alert ganador={ganador} showModal={this.state.showModal} manejadorCloseModal={this.close}/>
+        </div>
+    )
   }
 });
 

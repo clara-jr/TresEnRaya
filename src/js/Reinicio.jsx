@@ -1,3 +1,8 @@
+import { Button } from 'react-bootstrap';
+
+var React = require('react');
+var ReactDOM = require('react-dom');
+
 const reinicioStyle = {
   height: '50px',
   width: '100px',
@@ -10,9 +15,9 @@ let Reinicio = React.createClass({
   },
   render: function(){
    return (
-    <button style={reinicioStyle} onClick={this.reinicioClick}>
+    <Button bsStyle="primary" style={reinicioStyle} onClick={this.reinicioClick}>
       Reiniciar
-    </button>
+    </Button>
    )
   }
 });
